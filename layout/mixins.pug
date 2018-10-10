@@ -99,7 +99,7 @@ mixin make_tags_or_categories(item)
 							base_url = base_url.replace("https:", "")
 						}
 						for(var i = 0; i < names.length; i ++){
-							console.log(names[i])
+							/* console.log(names[i]) */
 							$.get("../categories/" + names[i] + "/index.html", function(data, status){
 								var result = data.split("listing-post");
 								var num = result.length - 1;
