@@ -1,0 +1,181 @@
+mixin make_post(item, is_detail)
+	.post.animated.fadeInDown
+		.post-title
+			h3
+				if is_detail
+					a= item.title
+				else
+					a(href= url_for(item.path))= item.title
+		if is_detail
+			.post-content.post-detail!= item.content
+		else
+			.post-content
+				- var summary = item.summary || item.content
+				p!= truncate(strip_html(summary), {length: 160})
+		.post-footer: .meta
+			.info
+				i.fa.fa-sun-o
+				span.date.tag-not-hover= date(item.date, 'YYYY-MM-DD')
+				if theme.duoshuo || theme.disqus
+					i.fa.fa-comment-o
+					a(href= url_for(item.path + "#comments"))= __('Comments')
+				if item.categories
+					//- i.fas.fa-user-circle
+					- item.categories.sort('posts').each(function(item) {	
+						- var tmp = item.name.toLowerCase().split(' ')
+						- var png_name = ""
+						- for(var i = 0; i < tmp.length; i ++){
+								if i == 0
+									- png_name += tmp[i]
+								else
+									- png_name += "-" + tmp[i]
+						- }
+							// i.fas.fa-pencil-alt
+							// a.tag(href=config.root + item.path, title= item.name)!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+							a.tag.tag-not-hover!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+					- });
+				if item.tags.length >= 1
+					br
+					i.fa.fa-tag
+					- item.tags.sort('posts').each(function(item) {
+							// a.tag(href=config.root + item.path, title= item.name)= "#" + item.name + " "
+							a.tag.tag-not-hover= "#" + item.name + " "
+					- });
+
+mixin make_tags_or_categories(item)
+	- var items = []
+	- var title = ''
+	- var isTagsAndAuthorsIndex = page.type === 'tags_and_authors'
+	- var isAboutUs = page.type === 'about_us'
+	.post.animated.fadeInDown
+		.post-content
+		if isTagsAndAuthorsIndex
+			- tag_items = site.tags
+			//- - tag_title = __('tags')
+			- authors_items = site.categories
+			//- - authurs_title = __('categories')
+			h1.sort_by_title= "Sort by tags"
+			hr.sort_by_hr
+			ul.general-ul.tag-ul.clearfix
+				- tag_items.forEach(function(item) {
+						li.tag-li
+							a.tag.tag-li-detail(href=config.root + item.path, title= item.name)= "# " + item.name + " "
+				- });
+			h1.sort_by_title= "Sort by authors"
+			hr.sort_by_hr
+			ul.general-ul
+				- authors_items.forEach(function(item) {
+					- var tmp = item.name.toLowerCase().split(' ')
+					- var png_name = ""
+					- for(var i = 0; i < tmp.length; i ++){
+							if i == 0
+								- png_name += tmp[i]
+							else
+								- png_name += "-" + tmp[i]
+					- }
+						li.sort-user-li
+							img.sort-author-avatar(src= url_for("/images/avatar/" + png_name + ".png")) 
+							a.user-li-title(href=config.root + item.path, title= item.name)= item.name
+							// +make_name_card(item)
+				- });
+		else if isAboutUs
+			- authors_items = site.categories
+			ul.general-ul.user-ul
+				- authors_items.forEach(function(item) {	
+						li.user-li
+							+make_name_card(item)
+				- });
+				script.
+					$(document).ready(function(){
+						var names = [
+							"Danial-Nam",
+							"Hyeshin"
+						];
+						var index = 0;
+						for(var i = 0; i < names.length; i ++){
+							$.ajax({
+								url: "../categories/" + names[i],
+								success: function(data){
+									var result = data.split("listing-post");
+									var num = result.length - 1;
+									$('.' + names[index]).text(num + " Articles");
+									index++;
+								}
+							});
+						}
+						
+					})
+
+mixin make_name_card(item)
+	//- i.fab.fa-github
+	- var tmp = item.name.toLowerCase().split(' ')
+	- var class_tmp = item.name.split(' ')
+	- var png_name = ""
+	- var class_name = ""
+	- for(var i = 0; i < tmp.length; i ++){
+			if i == 0
+				- png_name += tmp[i]
+				- class_name += class_tmp[i]
+			else
+				- png_name += "-" + tmp[i]
+				- class_name += "-" + class_tmp[i]
+	- }
+	- var array = { "danial-nam" : { "Github" : "https://github.com/DanialDaeHyunNam", "Portfolio" : "", "LinkedIn" : ""}, "hyeshin" : { "Github" : "https://github.com/hyeshinoh", "Portfolio" : "", "LinkedIn" : ""} }
+	img.sort-author-avatar.avatar-about-us(src= url_for("/images/avatar/" + png_name + ".png")) 
+	span.user-namecard-title= item.name
+	span.user-articles-count(class=class_name)
+	div.social-wrap
+		if array[png_name].Github != ""
+			a.about-social-icon(href=array[png_name].Github, target="__blank")
+				i.fab.fa-github.social-github
+		if array[png_name].Portfolio != ""
+			a.about-social-icon(href=array[png_name].Github, target="__blank")
+				i.fas.fa-home.social-home
+		if array[png_name].LinkedIn != ""
+
+mixin make_pager()
+	- var prev = page.prev_link
+	- var next = page.next_link
+	.pagination
+		ul.clearfix
+			if page.prev
+				li.pre.pagbuttons
+					a.btn(role="navigation",href=url_for(prev))= __('prev')
+			if page.next
+				li.next.pagbuttons
+					a.btn(role="navigation",href=url_for(next))= __('next')
+
+mixin postList()
+	.archive
+		- var year = 0;
+		- var change = false;
+		- var firstYear = true;
+		- page.posts.each(function (item) {
+			- var itemYear = date(item.date, 'YYYY') - 0;
+			- change = year !== itemYear;
+			- year = change ? itemYear : year;
+			if change
+				if firstYear
+					| <div class="listing-title">
+					!= year
+					| </div><ul class="listing">
+					- firstYear = false;
+				else
+					| </ul><div class="listing-title">
+					!= year
+					| </div><ul class="listing">
+			
+			.listing-item
+				.listing-post
+					a.listing-title-new(href= url_for(item.path), title= item.title)= item.title
+					div.post-time
+						i.fa.fa-sun-o
+						span.date.tag-not-hover(style="margin-left: 2px;")= date(item.date, 'MM-DD')
+					if item.tags.length >= 1
+						div.listing-tag-div
+							i.fa.fa-tag.listing-tag
+							- item.tags.sort('posts').each(function(item) {
+									span.tag.tag-not-hover.listing-tag= "#" + item.name + " "
+							- });
+						
+		- })

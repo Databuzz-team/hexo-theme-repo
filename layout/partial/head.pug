@@ -1,0 +1,31 @@
+meta(charset="utf-8")
+meta(name="X-UA-Compatible", content="IE=edge")
+meta(name="author", content= theme.author)
+title
+    block site_title
+        = config.title
+block description
+    meta(name="description", content= config.description ? config.description : 'A Blog Powered By Hexo')
+
+if page.keywords
+    meta(name="keywords", content= page.keywords)
+else
+    meta(name="keywords" content= theme.keywords)
+
+meta(content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",name="viewport")
+meta(content="yes",name="apple-mobile-web-app-capable")
+meta(content="black",name="apple-mobile-web-app-status-bar-style")
+meta(content="telephone=no",name="format-detection")
+
+meta(name="renderer",content="webkit")
+link(rel="short icon", href="/images/top-image.png",type="image/x-icon")
+link(rel="stylesheet", href= url_for('css/style.css'))
+link(rel="stylesheet", href= url_for('css/blog_basic.css'))
+link(rel="stylesheet", href= url_for('https://use.fontawesome.com/releases/v5.3.1/css/solid.css'), integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW", crossorigin="anonymous")
+link(rel="stylesheet", href= url_for('https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css'), integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7", crossorigin="anonymous")
+link(rel="stylesheet", href= url_for('https://use.fontawesome.com/releases/v5.3.1/css/brands.css'), integrity="sha384-rf1bqOAj3+pw6NqYrtaE1/4Se2NBwkIfeYbsFdtiR6TQz0acWiwJbv1IM/Nt/ite", crossorigin="anonymous")
+link(rel="stylesheet", href= url_for('https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css'), integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7", crossorigin="anonymous")
+link(rel="stylesheet", href= url_for('css/font-awesome.min.css'))
+link(rel="stylesheet", href= url_for('css/new.css'))
+link(rel="stylesheet", href= url_for('https://fonts.googleapis.com/css?family=Luckiest+Guy|Stylish|Boogaloo'))
+link(rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml")

@@ -1,0 +1,36 @@
+.page-top.animated.fadeInDown
+  .nav
+    li
+      if is_home()
+        a.current()= __('Home')					
+      else
+        a(href="/")= __('Home')	
+    //- li
+    //-   if is_archive()
+    //-     a.current(href="/archives")= __('Archives')
+    //-   else
+    //-     a(href="/archives")= __('Archives')
+    li
+      if is_current('tags-and-authors')
+        a.current()= __('Tags_And_Authors')			
+      else
+        a(href="/tags-and-authors")= __('Tags_And_Authors')
+    li
+      if is_current('about-us')
+        a.current()= __('About_Us')			
+      else
+        a(href="/about-us")= __('About_Us')
+    //- li
+    //-   if is_current('links')
+    //-     a.current(href="/links")= __('Links')					
+    //-   else
+    //-     a(href="/links")= __('Links')		
+  .information
+    .back_btn
+      li
+        if is_post()
+          a.fa.fa-chevron-left(onclick="window.history.go(-1)") 
+        else
+          a.fa.fa-chevron-left(onclick="window.history.go(-1)",style="display:none;") 
+    .avatar
+      img(src=theme.homeBtn)
