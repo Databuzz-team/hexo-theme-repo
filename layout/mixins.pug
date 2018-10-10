@@ -94,7 +94,7 @@ mixin make_tags_or_categories(item)
 						var index = 0;
 						for(var i = 0; i < names.length; i ++){
 							$.ajax({
-								url: "../categories/" + names[i],
+								url: "/categories/" + names[i],
 								success: function(data){
 									var result = data.split("listing-post");
 									var num = result.length - 1;
