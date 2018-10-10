@@ -93,7 +93,10 @@ mixin make_tags_or_categories(item)
 						];
 						var index = 0;
 						var base_url = window.location.origin;
+						console.log(base_url.includes("https"))
+						if(!base_url.includes("https")) base_url = base_url.replace("http", "https")
 						for(var i = 0; i < names.length; i ++){
+							console.log(base_url)
 							$.ajax({
 								url: base_url + "/categories/" + names[i],
 								xhrFields: {
