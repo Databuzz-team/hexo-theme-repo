@@ -6,6 +6,14 @@
       if theme.description
         .description
           p.title_description= theme.description
+  - var tags = site.tags
+  if tags.length > 0
+    div.featured-tags-wrap
+      h1.featured-tags-title= "FEATURED TAGS"
+      ul.featured-tags-ul
+        - tags.forEach(function(item) {
+            li.featured-tags-li.tag-li-detail= " " + item.name + " "
+        - });
   //- ul.social-links
   //-   if theme.twitter
   //-     li
