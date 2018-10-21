@@ -77,14 +77,18 @@ mixin make_tags_or_categories(item)
 			ul.general-ul
 				- authors_items.forEach(function(item) {
 					- var tmp = item.name.toLowerCase().split(' ')
+					- var class_tmp = item.name.split(' ')
 					- var png_name = ""
+					- var class_name = ""
 					- for(var i = 0; i < tmp.length; i ++){
 							if i == 0
 								- png_name += tmp[i]
+								- class_name += class_tmp[i]
 							else
 								- png_name += "-" + tmp[i]
+								- class_name += "-" + class_tmp[i]
 					- }
-						li.sort-user-li
+						li.sort-user-li(class=class_name)
 							img.sort-author-avatar(src= url_for("/images/avatar/" + png_name + ".png")) 
 							a.user-li-title(href=config.root + item.path, title= item.name)= item.name
 							// +make_name_card(item)
@@ -96,8 +100,10 @@ mixin make_tags_or_categories(item)
 							var name_length = $('.category-list').children().length
 							for(var i = 0; i < name_length; i ++){
 								var index = i + 1
+								var name = $('.category-list .category-list-item:nth-child(' + index + ') .category-list-link').text()
+								name = name.replace(' ', '-')
 								var num = $('.category-list .category-list-item:nth-child(' + index + ') .category-list-count').text()
-								$('ul.general-ul > li.sort-user-li:nth-child(' + index + ') > a.user-li-title').append("<span class='tag_count author_count'>" + num + "</span>")
+								$('.' + name + ' > a.user-li-title').append("<span class='tag_count author_count'>" + num + "</span>")
 							}
 						})
 		else if isAboutUs
