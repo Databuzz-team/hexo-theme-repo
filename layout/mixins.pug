@@ -58,8 +58,16 @@ mixin make_tags_or_categories(item)
 			hr.sort_by_hr
 			ul.general-ul.tag-ul.clearfix
 				- tag_items.forEach(function(item) {
+						- var arr_class_name = item.name.split(' ')
+						- var class_name = ""
+						- for(var i = 0; i < arr_class_name.length; i ++){
+								if i == 0
+									- class_name += arr_class_name[i]
+								else
+									- class_name += "-" + arr_class_name[i]
+						- }
 						li.tag-li
-							a.tag.tag-li-detail(href=config.root + item.path, title= item.name)= "# " + item.name + " "
+							a.tag.tag-li-detail(href=config.root + item.path, title= item.name, class= class_name)= "# " + item.name + " "
 				- });
 				- var li_tags = list_tags({show_count: true})
 				div(style="display:none")!= li_tags
@@ -68,8 +76,10 @@ mixin make_tags_or_categories(item)
 							var tag_length = $('.tag-list').children().length
 							for(var i = 0; i < tag_length; i ++){
 								var index = i + 1
+								var tag_name = $('.tag-list .tag-list-item:nth-child(' + index + ') .tag-list-link').text()
+								var class_name = tag_name.replace(" ", "-")
 								var num = $('.tag-list .tag-list-item:nth-child(' + index + ') .tag-list-count').text()
-								$('ul.general-ul.tag-ul.clearfix > li:nth-child(' + index + ') > a').append("<span class='tag_count'>" + num + "</span>")
+								$('a.' + class_name).append("<span class='tag_count'>" + num + "</span>")
 							}
 						})
 			h1.sort_by_title= "Sort by authors"
