@@ -84,7 +84,7 @@ mixin make_tags_or_categories(item)
 						})
 			h1.sort_by_title= "Sort by authors"
 			hr.sort_by_hr
-			ul.general-ul
+			ul.general-ul.author-ul
 				- authors_items.forEach(function(item) {
 					- var tmp = item.name.toLowerCase().split(' ')
 					- var class_tmp = item.name.split(' ')
