@@ -202,11 +202,26 @@ mixin postList()
 					div.post-time
 						i.fa.fa-sun-o
 						span.date.tag-not-hover(style="margin-left: 2px;")= date(item.date, 'MM-DD')
-					if item.tags.length >= 1
+					if item.tags.length >= 0
 						div.listing-tag-div
 							i.fa.fa-tag.listing-tag
 							- item.tags.sort('posts').each(function(item) {
 									span.tag.tag-not-hover.listing-tag= "#" + item.name + " "
 							- });
+					if item.categories
+						//- i.fas.fa-user-circle
+						- item.categories.sort('posts').each(function(item) {	
+							- var tmp = item.name.toLowerCase().split(' ')
+							- var png_name = ""
+							- for(var i = 0; i < tmp.length; i ++){
+									if i == 0
+										- png_name += tmp[i]
+									else
+										- png_name += "-" + tmp[i]
+							- }
+								// i.fas.fa-pencil-alt
+								// a.tag(href=config.root + item.path, title= item.name)!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+								a.tag.tag-not-hover.tag-on-archive!= '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+						- });
 						
 		- })

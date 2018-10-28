@@ -5,11 +5,11 @@
         a.current()!= '<i class="fas fa-home nav-icon nav-current"></i>' +  __('Home')					
       else
         a(href="/")!= '<i class="fas fa-home nav-icon"></i>' +  __('Home')
-    //- li
-    //-   if is_archive()
-    //-     a.current(href="/archives")= __('Archives')
-    //-   else
-    //-     a(href="/archives")= __('Archives')
+    li
+      if is_archive()
+        a.current()!= '<i class="fas fa-archive nav-icon nav-current"></i>' + __('Archives')
+      else
+        a(href="/archives")!= '<i class="fas fa-archive nav-icon"></i>' + __('Archives')
     li
       if is_current('tags-and-authors')
         a.current()!= '<i class="fas fa-user-tag nav-icon nav-current"></i>' + __('Tags_And_Authors')			
@@ -29,8 +29,8 @@
     .back_btn
       li
         if is_post()
-          a.fa.fa-chevron-left(onclick="window.history.go(-1)") 
+          a.fa.fa-chevron-left.back-btn-icon(onclick="window.history.go(-1)") 
         else
-          a.fa.fa-chevron-left(onclick="window.history.go(-1)",style="display:none;") 
+          a.fa.fa-chevron-left.back-btn-icon(onclick="window.history.go(-1)",style="display:none;") 
     .avatar
       img(src=theme.homeBtn)

@@ -3,8 +3,10 @@ html(lang="en")
   head
     include head
     script(src= url_for('js/jquery.js'))
+    script(src= url_for('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'))
     script(src= url_for('js/jquery-migrate-1.2.1.min.js'))
     script(src= url_for('js/jquery.appear.js'))
+    script(src= url_for('js/custom.js'))
     script(async, src="https://www.googletagmanager.com/gtag/js?id=UA-127200932-1")
     script.
       window.dataLayer = window.dataLayer || [];
@@ -18,3 +20,6 @@ html(lang="en")
       include nav
 
       block content
+        
+    a(href="#", id="back-to-top", title="Back to top")
+      i.fas.fa-angle-up
