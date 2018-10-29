@@ -5,7 +5,9 @@
       h3(title="").sidebar_title= config.sidebarTitle
       if theme.description
         .description
-          p.title_description= theme.description
+          - var rss_url = "https://databuzz-team.github.io/atom"
+          - var rss_icon = "<i class='fas fa-rss rss-icon'></i></a>"
+          p.title_description!= theme.description + '<a class="rss-icon-a" href="' + rss_url + '" target="__blank">' + rss_icon
   - var tags = site.tags
   if tags.length > 0
     div.featured-tags-wrap
