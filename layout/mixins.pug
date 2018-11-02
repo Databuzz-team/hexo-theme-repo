@@ -1,47 +1,23 @@
 mixin make_post(item, is_detail)
 	.post.animated.fadeInDown
-		.post-title
-			h3
-				if is_detail
-					a= item.title
-				else
-					a(href= url_for(item.path))= item.title
-		if is_detail
-			.post-content.post-detail!= item.content
+		- var banner = bannerOf(item) || "";
+		if !is_detail
+			if banner != ""
+				a(href= url_for(item.path))
+					.post-thumbnail
+						.post-thumbnail-img(style={
+							'background-image': `url('${banner}')`
+						})
+				.post-wrap.post-wrap-with-thumbnail
+					+post_list(item, is_detail)
+			else
+				.post-wrap
+					+post_list(item, is_detail)
+			+post_footer(item, is_detail)
 		else
-			.post-content
-				- var summary = item.summary || item.content
-				p!= truncate(strip_html(summary), {length: 160})
-		.post-footer: .meta
-			.info
-				i.fa.fa-sun-o
-				span.date.tag-not-hover= date(item.date, 'YYYY-MM-DD')
-				if theme.duoshuo || theme.disqus
-					i.fa.fa-comment-o
-					a(href= url_for(item.path + "#comments"))= __('Comments')
-				if item.categories
-					//- i.fas.fa-user-circle
-					- item.categories.sort('posts').each(function(item) {	
-						- var tmp = item.name.toLowerCase().split(' ')
-						- var png_name = ""
-						- for(var i = 0; i < tmp.length; i ++){
-								if i == 0
-									- png_name += tmp[i]
-								else
-									- png_name += "-" + tmp[i]
-						- }
-							// i.fas.fa-pencil-alt
-							// a.tag(href=config.root + item.path, title= item.name)!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
-							a.tag.tag-not-hover!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
-					- });
-				if item.tags.length >= 1
-					br
-					i.fa.fa-tag
-					- item.tags.sort('posts').each(function(item) {
-							// a.tag(href=config.root + item.path, title= item.name)= "#" + item.name + " "
-							a.tag.tag-not-hover= "#" + item.name + " "
-					- });
-
+			+post_list(item, is_detail)
+			+post_footer(item, is_detail)
+			
 mixin make_tags_or_categories(item)
 	- var items = []
 	- var title = ''
@@ -117,7 +93,25 @@ mixin make_tags_or_categories(item)
 							}
 						})
 		else if isAboutUs
+			.about-us-wrap
+				h3.about-us-title= "About"
+					span.about-us-article-time!= "<i class='fa fa-sun-o'></i> 2018-11-02 13:51"
+				h5.about-us-sub= "이 블로그는?"
+				- var about_str = "이 블로그는 Data Science 중심의 지식 및 기술을 다루는 블로그이며, "
+				- about_str += " 이 분야 공부를 같이 시작한 사람들이 모여서 스터디 팀을 이루어 운영되고 있습니다.<br>"
+				- about_str += "<br>글은 각자 공부를 통해서 알게 된 내용이거나 트렌디한 소식을 번역하기도 합니다. 비록 "
+				- about_str += "이 분야 공부를 시작한 기간이 길지 않아 부족함이 많지만, 찾아오신 분들께 도움이 되었길 바랍니다."
+				- about_str += " 혹시 블로그를 이용하면서 글 내용에 오류가 있거나 부자연스러운 문장을 보신다면 댓글로 지적해주시면 정말 감사하겠습니다. :)"
+				p!= about_str
+				h5.about-us-sub= "구독"
+				- var subscribe_str = "블로그를 구독하고 싶으신 분은 <a style='color:dodgerblue' href='https://databuzz-team.github.io/atom'>RSS</a>를 이용하시면 됩니다."
+				- subscribe_str += " 무료 RSS리더인 <a style='color:dodgerblue' href='https://feedly.com/'>feedly</a>"
+				- subscribe_str += "를 사용하시거나, <a style='color:dodgerblue' href='https://dayfly-workspace.slack.com/services/BDPD4FNKA'>SLACK</a>의 RSS App을 사용하셔도 됩니다."
+				- subscribe_str += "<br> 아래는 팀원들 정보가 나와있으니 Github을 통해서 소통해주셔도 됩니다."
+				p!= subscribe_str
+				
 			- authors_items = site.categories
+			h3.about-us-title= "Databuzz Team Members"
 			ul.general-ul.user-ul
 				- authors_items.forEach(function(item) {	
 						li.user-li
@@ -164,6 +158,62 @@ mixin make_name_card(item)
 				i.fas.fa-home.social-home
 		if member.LinkedIn != ""
 
+mixin post_list(item, is_detail)
+	.post-title
+		h3
+			if is_detail
+				a= item.title
+			else
+				a(href= url_for(item.path))= item.title
+	if is_detail
+		.post-content.post-detail!= item.content
+	else
+		.post-content
+			- var summary = item.summary || item.content
+			a(href= url_for(item.path)).post-summary-a
+				p.post-summary!= truncate(strip_html(summary), {length: 160})
+	
+
+mixin post_footer(item, is_detail)
+	.post-footer: .meta
+		.info
+			i.fa.fa-sun-o
+			span.date.tag-not-hover= date(item.date, 'YYYY-MM-DD')
+			if theme.duoshuo || theme.disqus
+				i.fa.fa-comment-o
+				a(href= url_for(item.path + "#comments"))= __('Comments')
+			if item.categories
+				//- i.fas.fa-user-circle
+				- item.categories.sort('posts').each(function(item) {	
+					- var tmp = item.name.toLowerCase().split(' ')
+					- var png_name = ""
+					- for(var i = 0; i < tmp.length; i ++){
+							if i == 0
+								- png_name += tmp[i]
+							else
+								- png_name += "-" + tmp[i]
+					- }
+						// i.fas.fa-pencil-alt
+						// a.tag(href=config.root + item.path, title= item.name)!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+						a.tag.tag-not-hover!= "Written by " + '<img class="post-footer-author" src="/images/avatar/' + png_name + '.png"> ' + item.name + " "
+				- });
+			if item.tags.length >= 1
+				br
+				i.fa.fa-tag
+				- item.tags.sort('posts').each(function(item) {
+						// a.tag(href=config.root + item.path, title= item.name)= "#" + item.name + " "
+						a.tag.tag-not-hover= "#" + item.name + " "
+				- });
+			if is_detail
+				.share-to-social= "Share on "
+					#sharer.sharer  
+						.sharer-item(data-n='facebook')
+							i.fab.fa-facebook-f
+						.sharer-item(data-n='twitter')
+							i.fab.fa-twitter
+						.sharer-item(data-n='pinterest')
+							i.fab.fa-pinterest
+				
 mixin make_pager()
 	- var prev = page.prev_link
 	- var next = page.next_link
