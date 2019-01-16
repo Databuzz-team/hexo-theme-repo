@@ -21,7 +21,11 @@ meta(content="black",name="apple-mobile-web-app-status-bar-style")
 meta(content="telephone=no",name="format-detection")
 meta(content="hA9pHsXOdxxbLoAhWc2b_3tvhy-58l3vHmH8dw3WVkA",name="google-site-verification")
 meta(name="renderer",content="webkit")
-link(rel="short icon", href="/images/top-image.png",type="image/x-icon")
+if is_home()
+  link(rel="short icon", href="/images/top-image.png",type="image/x-icon")
+else
+  include ../mixins
+  +make_thumbnail(page)
 link(rel="stylesheet", href= url_for('css/style.css'))
 link(rel="stylesheet", href= url_for('css/blog_basic.css'))
 link(rel="stylesheet", href= url_for('https://use.fontawesome.com/releases/v5.3.1/css/solid.css'), integrity="sha384-VGP9aw4WtGH/uPAOseYxZ+Vz/vaTb1ehm1bwx92Fm8dTrE+3boLfF1SpAtB1z7HW", crossorigin="anonymous")

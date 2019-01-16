@@ -1,3 +1,10 @@
+mixin make_thumbnail(item)
+	- var banner = bannerOf(item) || "";
+	if banner != ""
+		link(rel="short icon", href=banner,type="image/x-icon")
+	else
+		link(rel="short icon", href="/images/top-image.png",type="image/x-icon")
+
 mixin make_post(item, is_detail)
 	.post.animated.fadeInDown
 		- var banner = bannerOf(item) || "";
