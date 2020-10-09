@@ -11,20 +11,23 @@
   - var tags = site.tags
   if tags.length > 0
     if is_post()
-      - page.categories.sort('posts').each(function(item) {	
-        - var tmp = item.name.toLowerCase().split(' ')
-        - var png_name = ""
-        - for(var i = 0; i < tmp.length; i ++){
-            if i == 0
-              - png_name += tmp[i]
-            else
-              - png_name += "-" + tmp[i]
-        - }
-          if item.name  == 'Danial Nam'
-            script(src='https://ads-partners.coupang.com/g.js')
-            script.
-              new PartnersCoupang.G({"id":339548,"subId":null});
-      - });
+      //- - page.categories.sort('posts').each(function(item) {	
+      //-   - var tmp = item.name.toLowerCase().split(' ')
+      //-   - var png_name = ""
+      //-   - for(var i = 0; i < tmp.length; i ++){
+      //-       if i == 0
+      //-         - png_name += tmp[i]
+      //-       else
+      //-         - png_name += "-" + tmp[i]
+      //-   - }
+      //-     if item.name  == 'Danial Nam'
+      //-       script(src='https://ads-partners.coupang.com/g.js')
+      //-       script.
+      //-         new PartnersCoupang.G({"id":339548,"subId":null});
+      //- - });
+      script(src='https://ads-partners.coupang.com/g.js')
+      script.
+        new PartnersCoupang.G({"id":339871,"subId":null});
     else
       div.featured-tags-wrap
         h1.featured-tags-title= "FEATURED TAGS"
