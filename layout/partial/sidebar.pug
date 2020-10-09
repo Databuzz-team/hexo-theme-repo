@@ -10,12 +10,29 @@
           p.title_description!= theme.description + '<a class="rss-icon-a" href="' + rss_url + '" target="__blank">' + rss_icon
   - var tags = site.tags
   if tags.length > 0
-    div.featured-tags-wrap
-      h1.featured-tags-title= "FEATURED TAGS"
-      ul.featured-tags-ul
-        - tags.forEach(function(item) {
-            li.featured-tags-li.tag-li-detail= " " + item.name + " "
-        - });
+    if is_post()
+      - page.categories.sort('posts').each(function(item) {	
+        - var tmp = item.name.toLowerCase().split(' ')
+        - var png_name = ""
+        - for(var i = 0; i < tmp.length; i ++){
+            if i == 0
+              - png_name += tmp[i]
+            else
+              - png_name += "-" + tmp[i]
+        - }
+          if item.name  == 'Danial Nam'
+            script(src='https://ads-partners.coupang.com/g.js')
+            script.
+              new PartnersCoupang.G({"id":339548,"subId":null});
+      - });
+    else
+      div.featured-tags-wrap
+        h1.featured-tags-title= "FEATURED TAGS"
+        ul.featured-tags-ul
+          - tags.forEach(function(item) {
+              li.featured-tags-li.tag-li-detail= " " + item.name + " "
+          - });
+
   //- ul.social-links
   //-   if theme.twitter
   //-     li
